@@ -2,7 +2,10 @@
   "name": "eb-deploy",
   "version": "0.1.0",
   "description": "Deploy Elastic Beanstalk projects from the command line",
-  "main": "bin/eb-deploy",
+  "main": "index.js",
+  "bin": {
+    "eb-deploy": "./bin/eb-deploy"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
