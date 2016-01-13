@@ -2,7 +2,7 @@
   "name": "eb-deploy",
   "version": "0.1.0",
   "description": "Deploy Elastic Beanstalk projects from the command line",
-  "main": "lib/index.js",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -11,6 +11,7 @@
   "dependencies": {
     "commander": "^2.9.0",
     "elastic-beanstalk.js": "^1.0.1",
-    "git-rev": "^0.2.1"
+    "git-rev": "^0.2.1",
+    "root-require": "^0.3.1"
   }
 }
