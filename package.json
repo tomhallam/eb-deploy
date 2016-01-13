@@ -25,5 +25,18 @@
     "gulp-concat": "^2.6.0",
     "gulp-plumber": "^1.0.1",
     "gulp-sourcemaps": "^1.6.0"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tomhallam/eb-deploy.git"
+  },
+  "keywords": [
+    "elastic",
+    "beanstalk",
+    "cli"
+  ],
+  "bugs": {
+    "url": "https://github.com/tomhallam/eb-deploy/issues"
+  },
+  "homepage": "https://github.com/tomhallam/eb-deploy#readme"
 }

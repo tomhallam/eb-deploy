@@ -5,7 +5,6 @@ const utils = require('./utils');
 
 const ebDeploy = require('root-require')('./package.json');
 const version = ebDeploy.version;
-//const devCreds = require('root-require')('./creds.json');
 
 // Set up command line args
 ebArgs
@@ -17,7 +16,6 @@ ebArgs
   .option('-e, --environment <name>', 'Which environment should this application be deployed to?')
   .option('-b, --bucketName <name>', 'The name of the *existing* S3 bucket to store your version')
   .option('-B, --branch <name>', 'The branch that should be used to generate the archive [master]', 'master')
-  //.option('-p, --packageLocation', 'Location of package.json if not ./package.json')
   .parse(process.argv);
 
 // Check arguments
@@ -32,6 +30,20 @@ if(!ebArgs.secretAccessKey) {
   process.exit(1);
 }
 
+if(!ebArgs.applicationName) {
+  console.error('Application name must be set!');
+  process.exit(1);
+}
+
+if(!ebArgs.environment) {
+  console.error('EB Environment must be set!');
+  process.exit(1);
+}
+
+if(!ebArgs.bucketName) {
+  console.error('EB Bucket Name must be set!');
+  process.exit(1);
+}
 
 // All projects require a package.json
 try {
@@ -40,7 +52,7 @@ try {
 catch(e) {
   console.error('No package.json found, exiting');
   console.error(e);
-  process.exit(1); 
+  process.exit(1);
 }
 
 const project = {
