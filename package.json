@@ -1,0 +1,16 @@
+{
+  "name": "eb-deploy",
+  "version": "0.0.1",
+  "description": "Deploy Elastic Beanstalk projects from the command line",
+  "main": "lib/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Tom Hallam",
+  "license": "MIT",
+  "dependencies": {
+    "commander": "^2.9.0",
+    "elastic-beanstalk.js": "^1.0.1",
+    "git-rev": "^0.2.1"
+  }
+}
