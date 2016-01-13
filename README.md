@@ -6,6 +6,8 @@ Deploy websites to Elastic Beanstalk from the command line.
     npm install -g eb-deploy
 
 ## Usage
+`eb-deploy` will deploy the project in the current working directory to Elastic Beanstalk.
+
 This tool is exposed as a command line program. See the information below for an explanation:
 
     Usage: eb-deploy [options]
