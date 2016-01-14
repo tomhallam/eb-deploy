@@ -1,6 +1,6 @@
 {
   "name": "eb-deploy",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "Deploy Elastic Beanstalk projects from the command line",
   "main": "./dist/lib/index.js",
   "bin": {
