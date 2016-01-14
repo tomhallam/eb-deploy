@@ -7,12 +7,9 @@ var utils = require('./utils');
 
 var ebDeploy = require('root-require')('./package.json');
 var version = ebDeploy.version;
-//const devCreds = require('root-require')('./creds.json');
 
 // Set up command line args
-ebArgs.version(version).option('-a, --accessKeyId <key>', 'Set AWS Access Key').option('-s, --secretAccessKey <key>', 'Set AWS Secret Access Key').option('-r, --region <region>', 'Set AWS Region [eu-west-1]', 'eu-west-1').option('-A, --applicationName <name>', 'The name of your Elastic Beanstalk Application').option('-e, --environment <name>', 'Which environment should this application be deployed to?').option('-b, --bucketName <name>', 'The name of the *existing* S3 bucket to store your version').option('-B, --branch <name>', 'The branch that should be used to generate the archive [master]', 'master')
-//.option('-p, --packageLocation', 'Location of package.json if not ./package.json')
-.parse(process.argv);
+ebArgs.version(version).option('-a, --accessKeyId <key>', 'Set AWS Access Key').option('-s, --secretAccessKey <key>', 'Set AWS Secret Access Key').option('-r, --region <region>', 'Set AWS Region [eu-west-1]', 'eu-west-1').option('-A, --applicationName <name>', 'The name of your Elastic Beanstalk Application').option('-e, --environment <name>', 'Which environment should this application be deployed to?').option('-b, --bucketName <name>', 'The name of the *existing* S3 bucket to store your version').option('-B, --branch <name>', 'The branch that should be used to generate the archive [master]', 'master').option('-V, --packageVersionOrigin <version>', 'Whether to use the version from package.json, or git tag [package.json]', 'package.json').parse(process.argv);
 
 // Check arguments
 // Back out if we've not set the required keys
@@ -23,6 +20,21 @@ if (!ebArgs.accessKeyId) {
 
 if (!ebArgs.secretAccessKey) {
   console.error('AWS Secret Access Key must be set!');
+  process.exit(1);
+}
+
+if (!ebArgs.applicationName) {
+  console.error('Application name must be set!');
+  process.exit(1);
+}
+
+if (!ebArgs.environment) {
+  console.error('EB Environment must be set!');
+  process.exit(1);
+}
+
+if (!ebArgs.bucketName) {
+  console.error('EB Bucket Name must be set!');
   process.exit(1);
 }
 
@@ -54,7 +66,7 @@ var elasticBeanstalk = new ElasticBeanstalk({
 utils.makeVersionsFolder().then(function () {
   return utils.getGitTag();
 }).then(function (tag) {
-  project.version = tag;
+  project.version = ebArgs.packageVersionOrigin === 'package.json' ? 'v' + packageInfo.version : tag;
   return utils.createArchive(ebArgs.branch, tag);
 }).then(function () {
   return elasticBeanstalk.createVersionAndDeploy({

@@ -16,6 +16,7 @@ ebArgs
   .option('-e, --environment <name>', 'Which environment should this application be deployed to?')
   .option('-b, --bucketName <name>', 'The name of the *existing* S3 bucket to store your version')
   .option('-B, --branch <name>', 'The branch that should be used to generate the archive [master]', 'master')
+  .option('-V, --packageVersionOrigin <version>', 'Whether to use the version from package.json, or git tag [package.json]', 'package.json')
   .parse(process.argv);
 
 // Check arguments
@@ -76,7 +77,7 @@ utils.makeVersionsFolder()
     return utils.getGitTag()
   })
   .then(function(tag) {
-    project.version = tag;
+    project.version = (ebArgs.packageVersionOrigin === 'package.json' ? 'v' + packageInfo.version : tag);
     return utils.createArchive(ebArgs.branch, tag)
   })
   .then(function() {
