@@ -73,6 +73,7 @@ utils.makeVersionsFolder().then(function () {
   console.log('Project version @' + project.version);
   return utils.createArchive(ebArgs.branch, project.version);
 }).then(function () {
+  console.log('Attempting upload ...');
   return elasticBeanstalk.createVersionAndDeploy({
     environment: ebArgs.environment,
     filename: path.join(process.cwd(), 'release.' + project.version + '.zip'),

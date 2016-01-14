@@ -41,9 +41,7 @@ function createArchive(branch, version) {
   var deferred = Q.defer();
   console.log('Creating project archive @ %s from branch %s', path.join(process.cwd(), 'release.' + version + '.zip'), branch);
 
-  var child = exec('git archive -v -o ' + path.join(process.cwd(), 'release.' + version + '.zip') + ' ' + branch, function (err, stdout, stderr) {
-    console.log(stdout);
-    console.error(stderr);
+  var child = exec('git archive -o ' + path.join(process.cwd(), 'release.' + version + '.zip') + ' ' + branch, function (err, stdout, stderr) {
     if (err) {
       console.log(err);
       return deferred.reject(err);
