@@ -48,7 +48,7 @@ if(!ebArgs.bucketName) {
 
 // All projects require a package.json
 try {
-  var packageInfo = require('root-require')('./package.json');
+  var packageInfo = require('./package.json');
 }
 catch(e) {
   console.error('No package.json found, exiting');
