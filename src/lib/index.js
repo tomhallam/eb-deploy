@@ -6,6 +6,8 @@ const utils = require('./utils');
 const ebDeploy = require('root-require')('./package.json');
 const version = ebDeploy.version;
 
+const path = require('path');
+
 // Set up command line args
 ebArgs
   .version(version)
@@ -48,7 +50,7 @@ if(!ebArgs.bucketName) {
 
 // All projects require a package.json
 try {
-  const packageInfo = require('root-require')('./package.json');
+  const packageInfo = require(path.join(process.cwd(), 'package.json'));
 }
 catch(e) {
   console.error('No package.json found, exiting');
@@ -77,7 +79,7 @@ utils.makeVersionsFolder()
     return utils.getGitTag()
   })
   .then(function(tag) {
-    project.version = tag;
+    project.version = (ebArgs.packageVersionOrigin === 'package.json' ? packageInfo.version : tag);
     return utils.createArchive(ebArgs.branch, tag)
   })
   .then(function() {
