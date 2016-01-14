@@ -39,11 +39,16 @@ function getGitTag() {
 function createArchive(branch, version) {
 
   var deferred = Q.defer();
+  console.log('Creating project archive @ %s from branch %s', path.join(process.cwd(), 'release.' + version + '.zip'), branch);
 
-  var child = exec('git archive -o ' + path.join(process.cwd(), '.versions', version + '.zip') + ' ' + branch, function (err, stdout, stderr) {
+  var child = exec('git archive -v -o ' + path.join(process.cwd(), 'release.' + version + '.zip') + ' ' + branch, function (err, stdout, stderr) {
+    console.log(stdout);
+    console.error(stderr);
     if (err) {
+      console.log(err);
       return deferred.reject(err);
     }
+    console.log('Zip created');
     return deferred.resolve();
   });
 
