@@ -8,6 +8,8 @@ var utils = require('./utils');
 var ebDeploy = require('root-require')('./package.json');
 var version = ebDeploy.version;
 
+var path = require('path');
+
 // Set up command line args
 ebArgs.version(version).option('-a, --accessKeyId <key>', 'Set AWS Access Key').option('-s, --secretAccessKey <key>', 'Set AWS Secret Access Key').option('-r, --region <region>', 'Set AWS Region [eu-west-1]', 'eu-west-1').option('-A, --applicationName <name>', 'The name of your Elastic Beanstalk Application').option('-e, --environment <name>', 'Which environment should this application be deployed to?').option('-b, --bucketName <name>', 'The name of the *existing* S3 bucket to store your version').option('-B, --branch <name>', 'The branch that should be used to generate the archive [master]', 'master').option('-V, --packageVersionOrigin <version>', 'Whether to use the version from package.json, or git tag [package.json]', 'package.json').parse(process.argv);
 
@@ -40,7 +42,8 @@ if (!ebArgs.bucketName) {
 
 // All projects require a package.json
 try {
-  var _packageInfo = require('root-require')('./package.json');
+  console.log('Attempting to load package.json: %s', path.join(process.cwd(), 'package.json'));
+  var _packageInfo = require(path.join(process.cwd(), 'package.json'));
 } catch (e) {
   console.error('No package.json found, exiting');
   console.error(e);
@@ -66,7 +69,8 @@ var elasticBeanstalk = new ElasticBeanstalk({
 utils.makeVersionsFolder().then(function () {
   return utils.getGitTag();
 }).then(function (tag) {
-  project.version = tag;
+  project.version = ebArgs.packageVersionOrigin == 'package.json' ? packageInfo.version : tag;
+  console.log('Project version @' + project.version);
   return utils.createArchive(ebArgs.branch, tag);
 }).then(function () {
   return elasticBeanstalk.createVersionAndDeploy({

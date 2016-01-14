@@ -50,6 +50,7 @@ if(!ebArgs.bucketName) {
 
 // All projects require a package.json
 try {
+  console.log('Attempting to load package.json: %s', path.join(process.cwd(), 'package.json'));
   const packageInfo = require(path.join(process.cwd(), 'package.json'));
 }
 catch(e) {
@@ -79,7 +80,8 @@ utils.makeVersionsFolder()
     return utils.getGitTag()
   })
   .then(function(tag) {
-    project.version = (ebArgs.packageVersionOrigin === 'package.json' ? packageInfo.version : tag);
+    project.version = (ebArgs.packageVersionOrigin == 'package.json' ? packageInfo.version : tag);
+    console.log('Project version @' + project.version);
     return utils.createArchive(ebArgs.branch, tag)
   })
   .then(function() {
