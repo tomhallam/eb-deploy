@@ -83,5 +83,6 @@ utils.makeVersionsFolder().then(function () {
   console.log('Successfully deployed ' + project.name + ' (' + project.version + ') to EB');
 }).fail(function (error) {
   console.error(error);
+  process.exit(1);
 });
 //# sourceMappingURL=index.js.map
