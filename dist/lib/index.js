@@ -40,7 +40,7 @@ if (!ebArgs.bucketName) {
 
 // All projects require a package.json
 try {
-  var packageInfo = require('./package.json');
+  var _packageInfo = require('root-require')('./package.json');
 } catch (e) {
   console.error('No package.json found, exiting');
   console.error(e);
@@ -66,7 +66,7 @@ var elasticBeanstalk = new ElasticBeanstalk({
 utils.makeVersionsFolder().then(function () {
   return utils.getGitTag();
 }).then(function (tag) {
-  project.version = ebArgs.packageVersionOrigin === 'package.json' ? 'v' + packageInfo.version : tag;
+  project.version = tag;
   return utils.createArchive(ebArgs.branch, tag);
 }).then(function () {
   return elasticBeanstalk.createVersionAndDeploy({
