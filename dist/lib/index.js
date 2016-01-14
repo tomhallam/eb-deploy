@@ -71,7 +71,7 @@ utils.makeVersionsFolder().then(function () {
 }).then(function (tag) {
   project.version = ebArgs.packageVersionOrigin == 'package.json' ? packageInfo.version : tag;
   console.log('Project version @' + project.version);
-  return utils.createArchive(ebArgs.branch, tag);
+  return utils.createArchive(ebArgs.branch, project.version);
 }).then(function () {
   return elasticBeanstalk.createVersionAndDeploy({
     environment: ebArgs.environment,
