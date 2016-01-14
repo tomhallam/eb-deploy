@@ -43,7 +43,7 @@ if (!ebArgs.bucketName) {
 // All projects require a package.json
 try {
   console.log('Attempting to load package.json: %s', path.join(process.cwd(), 'package.json'));
-  var _packageInfo = require(path.join(process.cwd(), 'package.json'));
+  var packageInfo = require(path.join(process.cwd(), 'package.json'));
 } catch (e) {
   console.error('No package.json found, exiting');
   console.error(e);
