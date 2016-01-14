@@ -4,15 +4,16 @@ var fs = require('fs');
 var Q = require('q');
 var gitRev = require('git-rev');
 var exec = require('child_process').exec;
+var path = require('path');
 
 function makeVersionsFolder() {
   var deferred = Q.defer();
 
-  fs.lstat('./.versions', function (err, stats) {
+  fs.lstat(path.join(process.cwd(), '.versions'), function (err, stats) {
     if (!err && stats.isDirectory()) {
       return deferred.resolve();
     } else {
-      fs.mkdir('./.versions', function (err) {
+      fs.mkdir(path.join(process.cwd(), '.versions'), function (err) {
         if (err) {
           return deferred.reject(err);
         }
@@ -39,7 +40,7 @@ function createArchive(branch, version) {
 
   var deferred = Q.defer();
 
-  var child = exec('git archive -o ./.versions/' + version + '.zip ' + branch, function (err, stdout, stderr) {
+  var child = exec('git archive -o ' + path.join(process.cwd(), '.versions', version + '.zip') + ' ' + branch, function (err, stdout, stderr) {
     if (err) {
       return deferred.reject(err);
     }

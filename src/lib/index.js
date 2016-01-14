@@ -87,7 +87,7 @@ utils.makeVersionsFolder()
   .then(function() {
     return elasticBeanstalk.createVersionAndDeploy({
       environment: ebArgs.environment,
-      filename: './.versions/' + project.version + '.zip',
+      filename: path.join(process.cwd(), '.versions', project.version + '.zip'),
       remoteFilename: project.name + '_' + project.version + '.zip',
       versionLabel: project.version
     });
