@@ -76,15 +76,15 @@ const elasticBeanstalk = new ElasticBeanstalk({
 
 // Create the archive
 utils.makeVersionsFolder()
-  .then(function() {
+  .then(() => {
     return utils.getGitTag()
   })
-  .then(function(tag) {
+  .then((tag) => {
     project.version = (ebArgs.packageVersionOrigin == 'package.json' ? packageInfo.version : tag);
     console.log('Project version @' + project.version);
     return utils.createArchive(ebArgs.branch, project.version);
   })
-  .then(function() {
+  .then(() => {
     console.log('Attempting upload ...');
     return elasticBeanstalk.createVersionAndDeploy({
       environment: ebArgs.environment,
@@ -93,10 +93,10 @@ utils.makeVersionsFolder()
       versionLabel: project.version
     });
   })
-  .then(function() {
+  .then(() => {
     console.log('Successfully deployed ' + project.name + ' (' + project.version + ') to EB');
   })
-  .fail(function(error) {
+  .fail((error) => {
     console.error(error);
     process.exit(1);
-  })
+  });
